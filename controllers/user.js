@@ -34,6 +34,8 @@ const signup = async (req, res, next) => {
     tel,
     photo,
     bloquage: false,
+    evenements:[],
+    bonPlans:[]
   });
 
   try {

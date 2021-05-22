@@ -9,13 +9,16 @@ const siteSchema = new schema({
     description:{type:String,required:true},
     adresse:{type:String,required:true},
     gouvernorat:{type:String,required:true},
+    long:{type:String,required:true},
+    lat:{type:String,required:true},
     tel:{type:String,required:true},
     photo:{type:String,required:true},
     categorie:{type:String,required:true},
     capacite:{type:String,required:true},
     scoreT:{type:String,required:true},
     evenements:[{type:mongoose.Types.ObjectId,required:true,ref:'evenement'}],
-    bonPlan:[{type:mongoose.Types.ObjectId,required:true,ref:'bonPlan'}]
+    bonPlans:[{type:mongoose.Types.ObjectId,required:true,ref:'bonPlan'}],
+    avis:[{type:mongoose.Types.ObjectId,required:true,ref:'avis'}]
 
 })
 siteSchema.plugin(uniqueValidator)

@@ -12,8 +12,6 @@ const userSchema = new schema({
     bloquage:{type:String,required:true},
     
 
-
-
 })
 
 userSchema.plugin(uniqueValidator)
