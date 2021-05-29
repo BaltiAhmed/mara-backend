@@ -7,10 +7,10 @@ const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 
 const signup = async (req, res, next) => {
-  const error = validationResult(req);
+ /*  const error = validationResult(req);
   if (!error.isEmpty()) {
     return next(new httpError("invalid input passed ", 422));
-  }
+  } */
 
   const {
     nom,
@@ -25,6 +25,7 @@ const signup = async (req, res, next) => {
     categorie,
     capacite,
   } = req.body;
+ 
   let existingSite;
   try {
     existingSite = await site.findOne({ email: email });
@@ -38,6 +39,8 @@ const signup = async (req, res, next) => {
     return next(error);
   }
 
+  
+
   const createdSite = new site({
     nom,
     email,
@@ -48,18 +51,17 @@ const signup = async (req, res, next) => {
     long,
     lat,
     tel,
-    photo:'fgkfk',
+    photo: req.file.path,
     categorie,
     capacite,
     scoreT: 0,
     evenements: [],
     bonPlan: [],
-    avis: []
+    avis: [],
   });
 
-
   try {
-     createdSite.save();
+    createdSite.save();
   } catch (err) {
     const error = new httpError("failed signup", 500);
     return next(error);
