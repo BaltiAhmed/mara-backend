@@ -12,7 +12,7 @@ const signup = async (req, res, next) => {
     return next(new httpError("invalid input passed ", 422));
   }
 
-  const { nom, prenom, email, password, tel, photo } = req.body;
+  const { nom, prenom, email, password, tel, adresse,gouvernorat } = req.body;
   let existinguser;
   try {
     existinguser = await user.findOne({ email: email });
@@ -32,7 +32,8 @@ const signup = async (req, res, next) => {
     email,
     password,
     tel,
-    photo,
+    adresse,
+    gouvernorat,
     bloquage: false,
     evenements:[],
     bonPlans:[]

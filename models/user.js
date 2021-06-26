@@ -8,8 +8,11 @@ const userSchema = new schema({
     email:{type:String,required:true,unique:true},
     password:{type:String,required:true,minlenght:8},
     tel:{type:String,required:true},
-    photo:{type:String,required:true},
+    adresse:{type:String,required:true},
+    gouvernorat:{type:String,required:true},
     bloquage:{type:String,required:true},
+    evenements:[{type:mongoose.Types.ObjectId,required:true,ref:'evenement'}],
+    bonPlans:[{type:mongoose.Types.ObjectId,required:true,ref:'bonPlan'}],
     
 
 })
