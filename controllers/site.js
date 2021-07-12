@@ -123,7 +123,7 @@ const getSite = async (req, res, next) => {
   let existingSite;
 
   try {
-    existingSite = await site.find({}, "-password");
+    existingSite = await site.find();
   } catch {
     const error = new httpError("failed !", 500);
     return next(error);

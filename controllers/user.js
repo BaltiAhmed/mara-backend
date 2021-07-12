@@ -102,7 +102,7 @@ const getUser = async (req, res, next) => {
   let existingUser;
 
   try {
-    existingUser = await user.find({}, "-password");
+    existingUser = await user.find();
   } catch {
     const error = new httpError("failed !", 500);
     return next(error);
