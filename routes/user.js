@@ -31,10 +31,11 @@ route.patch(
   "/:id",
   check("nom").not().isEmpty(),
   check("prenom").not().isEmpty(),
-  check("email").normalizeEmail,
+  check("email").not().isEmpty(),
   check("password").isLength({ min: 8 }),
   check("tel").not().isEmpty(),
-  check("photo").not().isEmpty(),
+  check("adresse").not().isEmpty(),
+  check("gouvernorat").not().isEmpty(),
   userControllers.updateUser
 );
 

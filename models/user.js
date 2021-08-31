@@ -14,6 +14,7 @@ const userSchema = new schema({
     evenements:[{type:mongoose.Types.ObjectId,required:true,ref:'evenement'}],
     bonPlans:[{type:mongoose.Types.ObjectId,required:true,ref:'bonPlan'}],
     
+    
 
 })
 

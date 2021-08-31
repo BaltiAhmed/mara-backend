@@ -132,7 +132,7 @@ const updateUser = async (req, res, next) => {
     return next(new httpError("invalid input passed ", 422));
   }
 
-  const { nom, prenom, email, password, tel, photo } = req.body;
+  const { nom, prenom, email, password, tel, adresse,gouvernorat } = req.body;
   const UserId = req.params.userId;
 
   let existingUser;
@@ -148,7 +148,8 @@ const updateUser = async (req, res, next) => {
   existingUser.email = email;
   existingUser.password = password;
   existingUser.tel = tel;
-  existingUser.photo = photo;
+  existingUser.adresse = adresse;
+  existingUser.gouvernorat = gouvernorat;
 
   try {
     existingUser.save();

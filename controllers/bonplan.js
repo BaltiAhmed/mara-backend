@@ -19,7 +19,6 @@ const ajout = async (req, res, next) => {
     Ddebut,
     Dfin,
     type,
-    photo: "dfd",
   });
 
   let existingUser;
@@ -32,9 +31,9 @@ const ajout = async (req, res, next) => {
   }
 
   try {
-    await createdBonplan.save();
-    existingUser.bonPlans.push(createdEvenement);
-    await existingUser.save();
+    createdBonplan.save();
+    existingUser.bonPlans.push(createdBonplan);
+    existingUser.save();
   } catch (err) {
     const error = new httpError("failed signup", 500);
     return next(error);
@@ -65,7 +64,6 @@ const updateBonPlan = async (req, res, next) => {
   existingBonPlan.Ddebut = Ddebut;
   existingBonPlan.Dfin = Dfin;
   existingBonPlan.type = type;
-  existingBonPlan.photo = "edf";
 
   try {
     existingBonPlan.save();
@@ -127,8 +125,36 @@ const deleteBonPlan = async (req, res, next) => {
   res.status(200).json({ message: "deleted" });
 };
 
+const getBonPlanSiteId = async (req, res, next) => {
+  const id = req.params.id;
+
+  let existingBonPlan;
+  try {
+    existingBonPlan = await site.findById(id).populate("bonPlans");
+  } catch (err) {
+    const error = new httpError(
+      "Fetching BolPlan failed, please try again later.",
+      500
+    );
+    return next(error);
+  }
+
+  if (!existingBonPlan || existingBonPlan.bonPlans.length === 0) {
+    return next(
+      new httpError("Could not find BonPlan for the provided user id.", 404)
+    );
+  }
+
+  res.json({
+    bonPlan: existingBonPlan.bonPlans.map((el) =>
+      el.toObject({ getters: true })
+    ),
+  });
+};
+
 exports.ajout = ajout;
 exports.updateBonPlan = updateBonPlan;
 exports.getBonPlan = getBonPlan;
 exports.getBonPlanById = getBonPlanById;
 exports.deleteBonPlan = deleteBonPlan;
+exports.getBonPlanSiteId = getBonPlanSiteId;

@@ -18,7 +18,8 @@ const siteSchema = new schema({
     scoreT:{type:String,required:true},
     evenements:[{type:mongoose.Types.ObjectId,required:true,ref:'evenement'}],
     bonPlans:[{type:mongoose.Types.ObjectId,required:true,ref:'bonPlan'}],
-    avis:[{type:mongoose.Types.ObjectId,required:true,ref:'avis'}]
+    avis:[{type:mongoose.Types.ObjectId,required:true,ref:'avis'}],
+    transports:[{type:mongoose.Types.ObjectId,required:true,ref:'transport'}],
 
 })
 siteSchema.plugin(uniqueValidator)

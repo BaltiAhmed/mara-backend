@@ -8,6 +8,7 @@ const siteRoutes = require("./routes/site");
 const evenementRoutes = require("./routes/evenement");
 const bonPlanRoutes = require("./routes/bonplan");
 const avisRoutes = require("./routes/avis");
+const transportsRoutes = require("./routes/transport");
 
 const httperror = require("./models/error");
 
@@ -33,6 +34,7 @@ app.use("/api/site", siteRoutes);
 app.use("/api/evenement", evenementRoutes);
 app.use("/api/bonplan", bonPlanRoutes);
 app.use("/api/avis", avisRoutes);
+app.use("/api/transport", transportsRoutes);
 
 app.use((req, res, next) => {
   const error = new httperror("could not find that page", 404);

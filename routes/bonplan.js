@@ -45,5 +45,6 @@ check('type')
 route.get('/',bonPlanControllers.getBonPlan)
 route.get('/:id',bonPlanControllers.getBonPlanById)
 route.delete('/:id',bonPlanControllers.deleteBonPlan)
+route.get('/site/:id',bonPlanControllers.getBonPlanSiteId)
 
 module.exports = route

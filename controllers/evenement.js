@@ -6,12 +6,8 @@ const site = require("../models/site");
 const { validationResult } = require("express-validator");
 
 const ajout = async (req, res, next) => {
-  const error = validationResult(req);
-  if (!error.isEmpty()) {
-    return next(new httpError("invalid input passed ", 422));
-  }
-
   const { titre, description, Ddebut, Dfin, type, IdUser } = req.body;
+  console.log(titre, description, Ddebut, Dfin, type, IdUser);
 
   const createdEvenement = new evenement({
     titre,
@@ -19,7 +15,9 @@ const ajout = async (req, res, next) => {
     Ddebut,
     Dfin,
     type,
-    photo: "dfd",
+    photo: req.file.path,
+    finished: false,
+    reservations: [],
   });
 
   let existingUser;
@@ -32,9 +30,9 @@ const ajout = async (req, res, next) => {
   }
 
   try {
-    await createdEvenement.save();
+    createdEvenement.save();
     existingUser.evenements.push(createdEvenement);
-    await existingUser.save();
+    existingUser.save();
   } catch (err) {
     const error = new httpError("failed signup", 500);
     return next(error);
@@ -65,7 +63,7 @@ const updateEvenement = async (req, res, next) => {
   existingEvenement.Ddebut = Ddebut;
   existingEvenement.Dfin = Dfin;
   existingEvenement.type = type;
-  existingEvenement.photo = "edf";
+  existingEvenement.photo = req.file.path;
 
   try {
     existingEvenement.save();
@@ -127,9 +125,36 @@ const deleteEvenement = async (req, res, next) => {
   res.status(200).json({ message: "deleted" });
 };
 
+const getEvenementSiteId = async (req, res, next) => {
+  const id = req.params.id;
 
-exports.ajout=ajout
-exports.updateEvenement=updateEvenement
-exports.getEvenement=getEvenement
-exports.getEvenementById=getEvenementById
-exports.deleteEvenement=deleteEvenement
+  let existingEvenement;
+  try {
+    existingEvenement = await site.findById(id).populate("evenements");
+  } catch (err) {
+    const error = new httpError(
+      "Fetching evenement failed, please try again later.",
+      500
+    );
+    return next(error);
+  }
+
+  if (!existingEvenement || existingEvenement.evenements.length === 0) {
+    return next(
+      new httpError("Could not find events for the provided user id.", 404)
+    );
+  }
+
+  res.json({
+    evenement: existingEvenement.evenements.map((el) =>
+      el.toObject({ getters: true })
+    ),
+  });
+};
+
+exports.ajout = ajout;
+exports.updateEvenement = updateEvenement;
+exports.getEvenement = getEvenement;
+exports.getEvenementById = getEvenementById;
+exports.deleteEvenement = deleteEvenement;
+exports.getEvenementSiteId = getEvenementSiteId;

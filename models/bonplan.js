@@ -7,7 +7,6 @@ const bonPlanSchema = new schema({
     Ddebut:{type:String,required:true},
     Dfin:{type:String,required:true},
     type:{type:String,required:true},
-    photo:{type:String,required:true}
     
 })
 

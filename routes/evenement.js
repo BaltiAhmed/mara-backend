@@ -5,8 +5,11 @@ const evenementControllers = require('../controllers/evenement')
 
 const {check} = require('express-validator')
 
+const fileUpload = require("../middleware/file-upload");
+
 route.post('/ajout', 
-check('titre')
+fileUpload.single("image"), 
+[check('titre')
 .not()
 .isEmpty(),
 check('description')
@@ -20,12 +23,13 @@ check('Dfin')
 .isEmpty(),
 check('type')
 .not()
-.isEmpty()
+.isEmpty()]
 , evenementControllers.ajout)
 
 
 route.patch('/:id', 
-check('titre')
+fileUpload.single("image"), 
+[check('titre')
 .not()
 .isEmpty(),
 check('description')
@@ -39,11 +43,12 @@ check('Dfin')
 .isEmpty(),
 check('type')
 .not()
-.isEmpty()
+.isEmpty()] 
 , evenementControllers.updateEvenement)
 
 route.get('/',evenementControllers.getEvenement)
 route.get('/:id',evenementControllers.getEvenementById)
 route.delete('/:id',evenementControllers.deleteEvenement)
+route.get('/site/:id',evenementControllers.getEvenementSiteId)
 
 module.exports = route
