@@ -10,22 +10,11 @@ route.post("/signup", fileUpload.single("image"), siteControllers.signup);
 
 route.post("/login", siteControllers.login);
 
-route.patch(
-  "/:id",
-  check("nom").not().isEmpty(),
-  check("email").normalizeEmail,
-  check("password").isLength({ min: 8 }),
-  check("description").not().isEmpty(),
-  check("adresse").not().isEmpty(),
-  check("gouvernorat").not().isEmpty(),
-  check("tel").not().isEmpty(),
-  check("categorie").not().isEmpty(),
-  check("capacite").not().isEmpty(),
-  siteControllers.updateSite
-);
+route.patch("/:id", fileUpload.single("image"), siteControllers.updateSite);
 
 route.get("/", siteControllers.getSite);
 route.get("/:id", siteControllers.getSiteById);
 route.delete("/:id", siteControllers.deleteSite);
+route.patch("/rating/:id",siteControllers.rating)
 
 module.exports = route;

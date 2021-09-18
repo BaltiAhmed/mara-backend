@@ -7,7 +7,7 @@ const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 
 const signup = async (req, res, next) => {
- /*  const error = validationResult(req);
+  /*  const error = validationResult(req);
   if (!error.isEmpty()) {
     return next(new httpError("invalid input passed ", 422));
   } */
@@ -25,7 +25,7 @@ const signup = async (req, res, next) => {
     categorie,
     capacite,
   } = req.body;
- 
+
   let existingSite;
   try {
     existingSite = await site.findOne({ email: email });
@@ -38,8 +38,6 @@ const signup = async (req, res, next) => {
     const error = new httpError("site exist", 422);
     return next(error);
   }
-
-  
 
   const createdSite = new site({
     nom,
@@ -55,6 +53,8 @@ const signup = async (req, res, next) => {
     categorie,
     capacite,
     scoreT: 0,
+    NRating:0,
+    TRating:0,
     evenements: [],
     bonPlan: [],
     avis: [],
@@ -148,10 +148,10 @@ const getSiteById = async (req, res, next) => {
 };
 
 const updateSite = async (req, res, next) => {
-  const error = validationResult(req);
+  /* const error = validationResult(req);
   if (!error.isEmpty()) {
     return next(new httpError("invalid input passed ", 422));
-  }
+  } */
 
   const {
     nom,
@@ -187,6 +187,7 @@ const updateSite = async (req, res, next) => {
   existingSite.tel = tel;
   existingSite.categorie = categorie;
   existingSite.capacite = capacite;
+  existingSite.photo = req.file.path;
 
   try {
     existingSite.save();
@@ -221,9 +222,41 @@ const deleteSite = async (req, res, next) => {
   res.status(200).json({ message: "deleted" });
 };
 
+const rating = async (req, res, next) => {
+  /* const error = validationResult(req);
+  if (!error.isEmpty()) {
+    return next(new httpError("invalid input passed ", 422));
+  } */
+
+  const { rating } = req.body;
+  const id = req.params.id;
+
+  let existingSite;
+
+  try {
+    existingSite = await site.findById(id);
+  } catch {
+    return next(new httpError("failed !! ", 500));
+  }
+
+  existingSite.NRating=existingSite.NRating+1
+  existingSite.TRating=existingSite.TRating+rating
+
+  existingSite.scoreT = existingSite.TRating/existingSite.NRating
+
+  try {
+    existingSite.save();
+  } catch {
+    return next(new httpError("failed to save !! ", 500));
+  }
+
+  res.status(200).json({ site: existingSite });
+};
+
 exports.signup = signup;
 exports.login = login;
 exports.getSite = getSite;
 exports.getSiteById = getSiteById;
 exports.updateSite = updateSite;
 exports.deleteSite = deleteSite;
+exports.rating =rating
