@@ -41,5 +41,6 @@ route.patch(
 
 route.delete("/:id", userControllers.deleteUser);
 route.patch("/bloquer/:id", userControllers.BloquerUser);
+route.patch("/debloquer/:id", userControllers.DeBloquerUser);
 
 module.exports = route;

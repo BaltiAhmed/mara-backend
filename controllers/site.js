@@ -7,11 +7,6 @@ const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 
 const signup = async (req, res, next) => {
-  /*  const error = validationResult(req);
-  if (!error.isEmpty()) {
-    return next(new httpError("invalid input passed ", 422));
-  } */
-
   const {
     nom,
     email,
@@ -53,12 +48,13 @@ const signup = async (req, res, next) => {
     categorie,
     capacite,
     scoreT: 0,
-    NRating:0,
-    TRating:0,
+    NRating: 0,
+    TRating: 0,
     evenements: [],
     bonPlan: [],
     avis: [],
   });
+
 
   try {
     createdSite.save();
@@ -223,11 +219,6 @@ const deleteSite = async (req, res, next) => {
 };
 
 const rating = async (req, res, next) => {
-  /* const error = validationResult(req);
-  if (!error.isEmpty()) {
-    return next(new httpError("invalid input passed ", 422));
-  } */
-
   const { rating } = req.body;
   const id = req.params.id;
 
@@ -239,10 +230,10 @@ const rating = async (req, res, next) => {
     return next(new httpError("failed !! ", 500));
   }
 
-  existingSite.NRating=existingSite.NRating+1
-  existingSite.TRating=existingSite.TRating+rating
+  existingSite.NRating = existingSite.NRating + 1;
+  existingSite.TRating = existingSite.TRating + rating;
 
-  existingSite.scoreT = existingSite.TRating/existingSite.NRating
+  existingSite.scoreT = existingSite.TRating / existingSite.NRating;
 
   try {
     existingSite.save();
@@ -259,4 +250,4 @@ exports.getSite = getSite;
 exports.getSiteById = getSiteById;
 exports.updateSite = updateSite;
 exports.deleteSite = deleteSite;
-exports.rating =rating
+exports.rating = rating;

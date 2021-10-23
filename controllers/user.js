@@ -161,7 +161,7 @@ const updateUser = async (req, res, next) => {
 };
 
 const BloquerUser = async (req, res, next) => {
-  const UserId = req.params.userId;
+  const UserId = req.params.id;
 
   let existingUser;
 
@@ -208,6 +208,28 @@ const deleteUser = async (req, res, next) => {
   res.status(200).json({ message: "deleted" });
 };
 
+const DeBloquerUser = async (req, res, next) => {
+  const UserId = req.params.id;
+
+  let existingUser;
+
+  try {
+    existingUser = await user.findById(UserId);
+  } catch {
+    return next(new httpError("failed !! ", 500));
+  }
+
+  existingUser.bloquage = false;
+
+  try {
+    existingUser.save();
+  } catch {
+    return next(new httpError("failed to save !! ", 500));
+  }
+
+  res.status(200).json({ existingUser: existingUser });
+};
+
 exports.signup = signup;
 exports.login = login;
 exports.getUser = getUser;
@@ -215,3 +237,4 @@ exports.getUserById = getUserById;
 exports.updateUser = updateUser;
 exports.BloquerUser = BloquerUser;
 exports.deleteUser = deleteUser;
+exports.DeBloquerUser =DeBloquerUser
