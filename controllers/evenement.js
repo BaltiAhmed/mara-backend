@@ -2,6 +2,7 @@ const httpError = require("../models/error");
 
 const evenement = require("../models/evenement");
 const site = require("../models/site");
+const notification = require("../models/notification");
 
 const { validationResult } = require("express-validator");
 
@@ -29,10 +30,18 @@ const ajout = async (req, res, next) => {
     return next(error);
   }
 
+  const createdNotification = new notification({
+    message:"Le sie "+existingUser.nom+" a ajouté un noveaux évenement veuillez le consulter pour plus d'information",
+    type:"Evenement",
+    image:existingUser.photo,
+    id:createdEvenement._id,
+  });
+
   try {
     createdEvenement.save();
     existingUser.evenements.push(createdEvenement);
     existingUser.save();
+    createdNotification.save()
   } catch (err) {
     const error = new httpError("failed signup", 500);
     return next(error);

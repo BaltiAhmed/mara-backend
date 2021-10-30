@@ -11,6 +11,7 @@ const avisRoutes = require("./routes/avis");
 const transportsRoutes = require("./routes/transport");
 const adminRoutes = require("./routes/admin");
 const categorieRoutes = require("./routes/categorie");
+const notificatonsRoute = require("./routes/notifications");
 
 const httperror = require("./models/error");
 
@@ -39,6 +40,7 @@ app.use("/api/avis", avisRoutes);
 app.use("/api/transport", transportsRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/categorie", categorieRoutes);
+app.use("/api/notification", notificatonsRoute);
 
 
 app.use((req, res, next) => {
