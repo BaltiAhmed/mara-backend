@@ -37,7 +37,6 @@ const signup = async (req, res, next) => {
   const createdSite = new site({
     nom,
     email,
-    password,
     description,
     adresse,
     gouvernorat,
@@ -152,7 +151,6 @@ const updateSite = async (req, res, next) => {
   const {
     nom,
     email,
-    password,
     description,
     adresse,
     gouvernorat,
@@ -174,7 +172,6 @@ const updateSite = async (req, res, next) => {
 
   existingSite.nom = nom;
   existingSite.email = email;
-  existingSite.password = password;
   existingSite.description = description;
   existingSite.adresse = adresse;
   existingSite.gouvernorat = gouvernorat;

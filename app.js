@@ -12,6 +12,7 @@ const transportsRoutes = require("./routes/transport");
 const adminRoutes = require("./routes/admin");
 const categorieRoutes = require("./routes/categorie");
 const notificatonsRoute = require("./routes/notifications");
+const responsableRoute = require("./routes/respnsable");
 
 const httperror = require("./models/error");
 
@@ -41,7 +42,7 @@ app.use("/api/transport", transportsRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/categorie", categorieRoutes);
 app.use("/api/notification", notificatonsRoute);
-
+app.use("/api/responsable", responsableRoute);
 
 app.use((req, res, next) => {
   const error = new httperror("could not find that page", 404);
