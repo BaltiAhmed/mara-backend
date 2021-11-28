@@ -10,5 +10,6 @@ route.post("/ajout", check("nom").not().isEmpty(), categorieControllers.ajout);
 route.get("/", categorieControllers.getCategorie);
 
 route.delete('/:id',categorieControllers.deletCategorie)
+route.patch('/:id',categorieControllers.updateCategorie)
 
 module.exports = route;

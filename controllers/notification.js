@@ -41,5 +41,30 @@ const getNotifications = async (req, res, next) => {
   res.json({ notifications: existingNotificaion });
 };
 
+const deletNotification = async (req, res, next) => {
+  const id = req.params.id;
+
+  let existingNotificaion;
+
+  try {
+    existingNotificaion = await notification.findById(id);
+  } catch {
+    return next(new httpError("failed !! ", 500));
+  }
+
+  if (!existingNotificaion) {
+    return next(new httpError("categorie does not exist !!", 422));
+  }
+
+  try {
+    existingNotificaion.remove();
+  } catch {
+    return next(new httpError("failed !!!", 500));
+  }
+
+  res.status(200).json({ message: "deleted" });
+};
+
 exports.ajout = ajout
 exports.getNotifications = getNotifications
+exports.deletNotification = deletNotification

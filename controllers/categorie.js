@@ -40,29 +40,59 @@ const getCategorie = async (req, res, next) => {
 };
 
 const deletCategorie = async (req, res, next) => {
-    const id = req.params.id;
-  
-    let existingCategorie;
-  
-    try {
-        existingCategorie = await categorie.findById(id);
-    } catch {
-      return next(new httpError("failed !! ", 500));
-    }
-  
-    if (!existingCategorie) {
-      return next(new httpError("categorie does not exist !!", 422));
-    }
-  
-    try {
-        existingCategorie.remove();
-    } catch {
-      return next(new httpError("failed !!!", 500));
-    }
-  
-    res.status(200).json({ message: "deleted" });
-  };
+  const id = req.params.id;
 
-exports.ajout = ajout
-exports.getCategorie = getCategorie
-exports.deletCategorie = deletCategorie
+  let existingCategorie;
+
+  try {
+    existingCategorie = await categorie.findById(id);
+  } catch {
+    return next(new httpError("failed !! ", 500));
+  }
+
+  if (!existingCategorie) {
+    return next(new httpError("categorie does not exist !!", 422));
+  }
+
+  try {
+    existingCategorie.remove();
+  } catch {
+    return next(new httpError("failed !!!", 500));
+  }
+
+  res.status(200).json({ message: "deleted" });
+};
+
+const updateCategorie = async (req, res, next) => {
+  const error = validationResult(req);
+  if (!error.isEmpty()) {
+    return next(new httpError("invalid input passed ", 422));
+  }
+
+  const { nom } = req.body;
+  const id = req.params.id;
+
+  let existingCategorie;
+
+  try {
+    existingCategorie = await categorie.findById(id);
+  } catch {
+    return next(new httpError("failed !! ", 500));
+  }
+
+  existingCategorie.nom = nom;
+  
+
+  try {
+    existingCategorie.save();
+  } catch {
+    return next(new httpError("failed to save !! ", 500));
+  }
+
+  res.status(200).json({ existingCategorie: existingCategorie });
+};
+
+exports.ajout = ajout;
+exports.getCategorie = getCategorie;
+exports.deletCategorie = deletCategorie;
+exports.updateCategorie = updateCategorie

@@ -59,7 +59,7 @@ app.use((error, req, res, next) => {
 
 mongoose
   .connect(
-    "mongodb+srv://marwapfe2021:marwa@cluster0.8hmzn.mongodb.net/marwa?retryWrites=true&w=majority"
+    "mongodb+srv://marwa:marwa123@cluster0.xnkuv.mongodb.net/site?retryWrites=true&w=majority"
   )
   .then(() => {
     app.listen(5000);
